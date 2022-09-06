@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { UserContext } from "./userContext";
 import { useHistory } from "react-router-dom"
 import { toast, ToastContainer } from 'react-toastify'
-import Alert from 'react-bootstrap/Alert'
+
 
 export const TechContext = createContext({});
 
@@ -20,8 +20,10 @@ export const TechProvider = ({ children }) => {
     const createTech = (data, modalOff) => {
         axios.post('https://kenziehub.herokuapp.com/users/techs ', data, {
             headers: {Authorization: `Bearer ${token}`}
-          }).then((response) => {window.location.reload()},
-          <Alert>"Tecnologia criada com sucesso</Alert>) 
+          }).then((response) => {window.location.reload();
+         }
+          )
+         
         .catch((err) => console.log(err.response.data.message))
     };
 
@@ -30,7 +32,9 @@ export const TechProvider = ({ children }) => {
         axios.delete('https://kenziehub.herokuapp.com/users/techs/' + techId, {
             headers: {Authorization: `Bearer ${token}`}
           }).then((response) => {window.location.reload();},
-          <Alert>"Tecnologia deletada com sucesso</Alert>) 
+          <Alert>
+          Tecnologia deletada com sucesso!
+          </Alert>) 
         .catch((err) => console.log(err.response.data.message))
        
     }

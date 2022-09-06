@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div `
-    width: 100wh;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    bottom: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
