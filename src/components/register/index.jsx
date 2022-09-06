@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import App from '../../App';
 import { useHistory } from "react-router-dom"
 import axios from 'axios';
+import { Container } from './style';
+import { toast } from 'react-toastify';
 
 
 
@@ -13,8 +15,28 @@ function Register(){
 
   const submitFunction = (data) => {
    axios.post('https://kenziehub.herokuapp.com/users', data)
-   .then((response) => history.push("/login")) 
-   .catch((err) => console.log(err.response.data.message))
+   .then((response) =>{ history.push("/login"); 
+    return toast(
+      '✅ Cadastro realizado com sucesso!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    )}) 
+   .catch((err) => console.log(err.response.data.message));
+      return toast('❌ Ops! Algo deu errado', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
   }
 
 
@@ -34,45 +56,48 @@ function Register(){
     })
 
    return(
-    <div className='container'>
-      <div>
-        <h1 h1 className='titulo'>Kenzie Hub</h1>
-        <button className='buttonBack' onClick={() => history.push('/login')} >Voltar</button>
+
+    <Container>
+       <div >
+      <div className='header'>
+        <h1 className='KenzieHub'>Kenzie Hub</h1>
+        <button className='volte'  onClick={() => history.push('/login')} >Voltar</button>
       </div>
     
     
-      <div className='boxTwo'>
+      <div className='formBody' >
       
-      <h1 className='login' >Crie sua conta</h1>
-      <h4 className='littleText'>Rápido e grátis, vamos nessa</h4>
-      <form className="form" onSubmit={handleSubmit(submitFunction)}>
+      <h1 className='Conta' >Crie sua conta</h1>
+      <h4 className='subtitulo'>Rápido e grátis, vamos nessa</h4>
+      <form  onSubmit={handleSubmit(submitFunction)}>
 
-        <h3 className='text'>Nome</h3>
-        <input  className='input' placeholder='Digite aqui seu nome' {...register("name")}/>
-        {errors.name && errors.name.message}
+        <h3  >Nome</h3>
+        <input   placeholder='Digite aqui seu nome' {...register("name")}/>
+        <div className='erros'>{errors.name && errors.name.message}</div>
+       
         
-        <h3 className='text'>Email</h3>
-        <input  className='input'  placeholder='Digite aqui seu email'  {...register("email")}></input>
-        {errors.email && errors.email.message}
+        <h3 >Email</h3>
+        <input   placeholder='Digite aqui seu email'  {...register("email")}></input>
+        <div className='erros'>{errors.email && errors.email.message}</div>
 
-        <h3 className='text'>Senha</h3>
-        <input  className='input' placeholder='Digite aqui sua senha'  {...register("password")}></input>
-        {errors.password && errors.password.message}
+        <h3 >Senha</h3>
+        <input   placeholder='Digite aqui sua senha'  {...register("password")}></input>
+        <div className='erros'>{errors.password && errors.password.message}</div>
 
-        <h3 className='text'>Confirmar Senha</h3>
-        <input  className='input' placeholder='Digite novamente sua senha'  {...register("confirmPassword")}></input>
-        {errors.confirmPassword && errors.confirmPassword.message}
+        <h3 >Confirmar Senha</h3>
+        <input   placeholder='Digite novamente sua senha'  {...register("confirmPassword")}></input>
+        <div className='erros'>{errors.confirmPassword && errors.confirmPassword.message}</div>
 
-        <h3 className='text'>Bio</h3>
-        <input  className='input' placeholder='Fale sobre você'  {...register("bio")}></input>
-        {errors.faleSobreVoce && errors.faleSobreVoce.message}
+        <h3 >Bio</h3>
+        <input   placeholder='Fale sobre você'  {...register("bio")}></input>
+        <div className='erros'>{errors.faleSobreVoce && errors.faleSobreVoce.message}</div>
 
-        <h3 className='text'>Contato</h3>
-        <input  className='input' placeholder='Opção de contato' {...register("contact")}></input>
-        {errors.contato && errors.contato.message}
+        <h3 >Contato</h3>
+        <input   placeholder='Opção de contato' {...register("contact")}></input>
+        <div className='erros'>{errors.contato && errors.contato.message}</div>
 
-        <h3 className='text'>Selecionar Módulo</h3>
-        <select  className='input' name="modulo" {...register("course_module")}>
+        <h3 >Selecionar Módulo</h3>
+        <select  className='select' name="modulo" {...register("course_module")}>
           <option value="Primeiro módulo (Introdução ao Frontend)">Primeiro módulo (Introdução ao Frontend)</option>
           <option value="Segundo módulo (Frontend Avançado)">Segundo módulo (Frontend Avançado)</option>
           <option value="Terceiro módulo (Introdução ao Backend)">Terceiro módulo (Introdução ao Backend)</option>
@@ -80,7 +105,7 @@ function Register(){
           
         </select>
         <div>
-          <button className='buttonRegister' type='submit'>Cadastrar</button>
+          <button  type='submit'>Cadastrar</button>
         
         </div>
         
@@ -92,6 +117,8 @@ function Register(){
     </div>
     
 
+    </Container>
+   
    )
 }
 

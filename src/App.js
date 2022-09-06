@@ -1,17 +1,21 @@
+
 import logo from "./logo.svg";
 import { Switch, Route } from "react-router-dom";
 import Login from "./components/login";
 import Dashboard from "./components/dashboard";
 import Register from "./components/register";
 import { useState } from "react";
-import './App.css'
+import Footer from "./components/footer/index.jsx";
+import { toast, ToastContainer } from 'react-toastify'
+
 
 function App() {
   const [user, setUser] = useState([]);
 
   return (
-    <div className="body">
+    <div >
       <header>
+      <ToastContainer/>
         <Switch>
           <Route exact path="/">
             <Login setUser={setUser} />
@@ -26,10 +30,9 @@ function App() {
             <Dashboard user={user} />
           </Route>
         </Switch>
+      <Footer/>
       </header>
-      <footer>
-        <h4 className='littleText' >Copyright © 2022 Kenzie Hub todos direitos reservados.</h4>
-      </footer>
+      
     </div>
   );
 }

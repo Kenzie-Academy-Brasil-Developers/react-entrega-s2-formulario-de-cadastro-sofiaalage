@@ -4,10 +4,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import App from '../../App';
 import { useHistory } from "react-router-dom"
 import axios from 'axios';
-import "./login.css"
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
+import { Container, Toast } from '../login/style';
+import { toast, ToastContainer } from 'react-toastify'
 
-function Login({setUser}){
 
+
+function Login(){
+
+    const {user , setUser} = useContext(UserContext)
+
+
+    
     const history= useHistory()
 
     const submitFunction = (data) => {
@@ -16,9 +25,31 @@ function Login({setUser}){
             setUser(response.data.user);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.user.id);
-            history.push("/dashboard")
+            history.push("/dashboard");
+
+        return toast('✅ Login efetuado com sucesso', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }) 
-        .catch((err) => console.log(err.response.data.message))
+        .catch((err) => {
+            return toast(`❌ Ops! Algo deu errado. \nErro: ${err.response.data.message}`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+        });
+        
+          
        }
      
 
@@ -33,26 +64,28 @@ function Login({setUser}){
 
     return(
         
-        <div className='container'>
-            <h1 className='titulo' >Kenzie Hub</h1>
-            <div className='box'>
-                <h2 className='login'>Login</h2>
-                <form className="form" onSubmit={handleSubmit(submitFunction)}>
-                    <h3 className='text'>Email</h3>
-                    <input className='input' placeholder='Email' {...register("email")}></input>
-                    {errors.email && errors.email.message}
+        <Container >
+            <h1>Kenzie Hub</h1>
+            <div >
+                <h2 >Login</h2>
+                <form  onSubmit={handleSubmit(submitFunction)}>
+                    <h3 >Email</h3>
+                    <input  placeholder='Email' {...register("email")}></input>
+                    <div className='erros'>{errors.email && errors.email.message}</div>
 
-                    <h3 className='text'>Senha</h3>    
-                    <input  className='input' placeholder='Senha' {...register("password")}></input>
-                    {errors.password && errors.password.message}
+                    <h3 >Senha</h3>    
+                    <input   placeholder='Senha' {...register("password")}></input>
+                    <div className='erros'>{errors.password && errors.password.message}</div>
 
-                    <button className='button' type="submit" >Entrar</button>
+                    <button type="submit" >Entrar</button>
+                    
                     
                 </form>
-               <h4 className='littleText'>Ainda não possui uma conta?</h4>
-                    <button className='buttonRegister'  onClick={() => history.push('/register')}>Cadastre-se</button>
+               <h4 >Ainda não possui uma conta?</h4>
+                    <button   onClick={() => history.push('/register')}>Cadastre-se</button>
             </div>
-        </div>
+           
+        </Container>
     )
 }
 
